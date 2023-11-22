@@ -1,0 +1,22 @@
+FROM node:16-alpine
+
+USER node 
+
+RUN mkdir -p /home/node/app
+WORKDIR /home/node/app
+
+COPY --chown=node:node ./package.json ./ 
+RUN npm install
+COPY --chown=node:node ./ ./
+
+CMD ["npm", "start"]
+
+
+# Run these in a wsl/Ubuntu terminal!!!
+
+# docker build -f Dockerfile.dev -t eschieffer:frontend .
+
+# docker run -it -p 3000:3000 -v /home/node/app/node_modules -v ~/frontend:/home/node/app eschieffer:frontend
+
+# Override default start command to run tests
+# docker run -it eschieffer:frontend npm run test
